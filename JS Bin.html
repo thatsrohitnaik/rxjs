@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<!-- saved from url=(0042)http://demos.zedo.com/demos/rohit/xyz.html -->
+<html class="gr__demos_zedo_com"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width">
+  <title>JS Bin</title>
+  <script src="./JS Bin_files/Rx.min.js"></script>
+  </head>
+<body data-gr-c-s-loaded="true" screen_capture_injected="true">
+  <br>
+  <br>
+  <br>
+  <button>Click me</button>
+<input type="text" id="input">
+
+
+<script>var button = document.querySelector('button');
+//
+var in$= document.querySelector('input');
+Rx.Observable.fromEvent(in$,'keyup')
+  .subscribe((a) => console.log(a.target.value));
+
+const abcd=[1,2,3,4,5,7];
+
+const abcd$ =Rx.Observable.from(abcd);
+
+abcd$.subscribe((a) => console.log(a),(b)=>{console.log(b);},()=>{console.log("Completeddd");});
+
+const post =[{a:"A",b:"B"},{a:"C",b:"Dukoor"}];
+
+const post$ =Rx.Observable
+           .from(post)
+           .pluck('b');
+
+post$.subscribe((a)=>{console.log(a);},()=>{console.log("Completed");})
+
+
+Rx.Observable
+  .fromEvent(button, 'click')
+  .throttleTime(1000)
+  .scan(count => count + 1, 0)
+  .subscribe(count => console.log(`Clicked ${count} times`));
+
+Rx.Observable.fromEvent(document, 'click')
+  .map(event => event.clientX)
+  .scan((count, clientX) => count + clientX, 0)
+  .subscribe(count => console.log(count));
+
+
+
+var foo = Rx.Observable.create(function (observer) {
+  observer.next(42);
+   observer.next(89);
+});
+
+foo.subscribe(function (x) {
+  console.log("sss"+x);
+});
+foo.subscribe(function (y) {
+  console.log(y);
+});
+
+
+var oo = Rx.Observable.create(function subscribe(observer) {
+  observer.next(1);
+  observer.next(2);
+  observer.next(38);
+  //observer.complete();
+});
+
+oo.subscribe(function(x){
+  console.log(x);
+},function(){console.log("Compleed");})
+
+
+var subject = new Rx.Subject();
+
+subject.subscribe({
+  next: (v) => console.log('observerA: ' + v)
+});
+subject.subscribe({
+  next: (v) => console.log('observerB: ' + v)
+});
+
+subject.next(1);
+subject.next(2);
+
+
+const set = new Set([1,"C",{"a":"a"}]);
+
+const set$ =Rx.Observable.from(set);
+
+set$.subscribe((a)=>{console.log(a);},()=>{console.log("Completed");})
+
+
+const map = new Map([[[{a:"adog"}],"a",2,[{a:"adog"}]],["c",4,[{a:"adog"}]],[5,6,[{a:"adog"}]]]);
+
+Rx.Observable
+  .from(map)
+  .subscribe((a)=>{console.log(a+"j");})
+
+
+
+Rx.Observable.range(0,9)
+  .map(e=>e*2)
+ .map(e=>e+7)
+  .subscribe(a=>{console.log(a);});
+
+const i1$=Rx.Observable.interval(1000).map(e=>"e"+e).take(6);
+const i2$=Rx.Observable.interval(500).map(v=>"v"+v).take(3);
+
+     Rx.Observable
+ 
+       .merge(i1$,i2$)
+          
+       .subscribe(e=>{console.log(e);})
+
+
+     const c1$=Rx.Observable.range(0,5);
+const c2$=Rx.Observable.range(6,5);
+
+     Rx.Observable
+ 
+       .concat(c1$,c2$)
+          
+       .subscribe(e=>{console.log(e);})
+
+     Rx.Observable.of("hello")
+     .mergeMap(e=>{
+       return Rx.Observable.of(e+" Evey");
+     })
+
+     .subscribe(y=>{console.log(y);})
+     
+
+</script>
+
+
+
+</body></html>
